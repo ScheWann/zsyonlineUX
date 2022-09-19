@@ -49,11 +49,12 @@
       </symbol>
     </svg>
   </head>
-  <body>
+  <body style="background-color: oldlace">
     <!-- header -->
     <div class="container">
       <header
-        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom"
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4"
+        style="border-bottom: 1px solid #999"
       >
         <a
           href="/"
@@ -72,15 +73,19 @@
         </a>
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
           <li>
-            <a href="./index.html" class="nav-link px-2" style="color:#666"
+            <a href="./index.html" class="nav-link px-2" style="color: #666"
               >Picture 1</a
             >
           </li>
           <li>
-            <a href="./pic2.html" class="nav-link px-2" style="color:#666" >Picture 2</a>
+            <a href="./pic2.html" class="nav-link px-2" style="color: #666"
+              >Picture 2</a
+            >
           </li>
           <li>
-            <a href="./pic3.html" class="nav-link px-2" style="color:#666">Picture 3</a>
+            <a href="./pic3.html" class="nav-link px-2" style="color: #666"
+              >Picture 3</a
+            >
           </li>
         </ul>
       </header>
@@ -178,7 +183,7 @@
         <script type="text/javascript">
           var myChartPic1 = echarts.init(document.getElementById("wheel"));
 
-          var option = {
+          var option1 = {
             tooltip: {
               trigger: "item",
             },
@@ -189,7 +194,7 @@
             color: [
               "#d3daa7",
               "#d3cc85",
-              "#a89146", 
+              "#a89146",
               "#59350c",
               "#304516",
               "#6a6829",
@@ -237,8 +242,31 @@
               },
             ],
           };
+          let currentIndex = -1;
 
-          myChartPic1.setOption(option);
+          setInterval(function () {
+            var dataLen = option1.series[0].data.length;
+            // 取消之前高亮的图形
+            myChartPic1.dispatchAction({
+              type: "downplay",
+              seriesIndex: 0,
+              dataIndex: currentIndex,
+            });
+            currentIndex = (currentIndex + 1) % dataLen;
+            // 高亮当前图形
+            myChartPic1.dispatchAction({
+              type: "highlight",
+              seriesIndex: 0,
+              dataIndex: currentIndex,
+            });
+            // 显示 tooltip
+            myChartPic1.dispatchAction({
+              type: "showTip",
+              seriesIndex: 0,
+              dataIndex: currentIndex,
+            });
+          }, 1000);
+          myChartPic1.setOption(option1);
         </script>
         <!-- 漏斗图 -->
         <div
@@ -317,11 +345,15 @@
           "
         >
           <div class="flexColumn">
-            <div style="font-size: 15px; color: #666; padding: 5px;">Analogous Color</div>
+            <div style="font-size: 15px; color: #666; padding: 5px">
+              Analogous Color
+            </div>
             <img src="./pic1 ana.png" style="border-radius: 10px; width: 80%" />
           </div>
           <div class="flexColumn">
-            <div style="font-size: 15px; color: #666; padding: 5px;">Complement Color</div>
+            <div style="font-size: 15px; color: #666; padding: 5px">
+              Complement Color
+            </div>
             <img src="./pic1 Com.png" style="border-radius: 10px; width: 80%" />
           </div>
         </div>

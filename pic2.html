@@ -49,11 +49,12 @@
       </symbol>
     </svg>
   </head>
-  <body>
+  <body style="background-color: beige">
     <!-- header -->
     <div class="container">
       <header
-        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom"
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4"
+        style="border-bottom: 1px solid #999"
       >
         <a
           href="/"
@@ -95,7 +96,12 @@
       <div class="pictureBlock">
         <div class="pictureflexColumn">
           <img src="./picture 2.png" style="border-radius: 10px; width: 100%" />
-          <a class="text" src="https://missionagency.com/" style="cursor: pointer;">Mission Agency</a>
+          <a
+            class="text"
+            src="https://missionagency.com/"
+            style="cursor: pointer"
+            >Mission Agency</a
+          >
         </div>
         <div class="doublechartsCombine">
           <!-- 平行图 -->
@@ -185,7 +191,7 @@
         <script type="text/javascript">
           var myChartPic1 = echarts.init(document.getElementById("wheel"));
 
-          var option = {
+          var option1 = {
             tooltip: {
               trigger: "item",
             },
@@ -244,8 +250,31 @@
               },
             ],
           };
+          let currentIndex = -1;
 
-          myChartPic1.setOption(option);
+          setInterval(function () {
+            var dataLen = option1.series[0].data.length;
+            // 取消之前高亮的图形
+            myChartPic1.dispatchAction({
+              type: "downplay",
+              seriesIndex: 0,
+              dataIndex: currentIndex,
+            });
+            currentIndex = (currentIndex + 1) % dataLen;
+            // 高亮当前图形
+            myChartPic1.dispatchAction({
+              type: "highlight",
+              seriesIndex: 0,
+              dataIndex: currentIndex,
+            });
+            // 显示 tooltip
+            myChartPic1.dispatchAction({
+              type: "showTip",
+              seriesIndex: 0,
+              dataIndex: currentIndex,
+            });
+          }, 1000);
+          myChartPic1.setOption(option1);
         </script>
         <!-- 漏斗图 -->
         <div
